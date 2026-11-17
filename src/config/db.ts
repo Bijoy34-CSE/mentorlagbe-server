@@ -1,5 +1,9 @@
+import dns from "node:dns";
 import { MongoClient } from "mongodb";
 import { env } from "./env.js";
+
+// Some ISPs block SRV lookups, so we use Google DNS for MongoDB
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 export const client = new MongoClient(env.MONGODB_URI);
 export const db = client.db(env.DB_NAME);
