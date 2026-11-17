@@ -8,7 +8,9 @@ import { env } from "./config/env.js";
 import adminRoutes from "./routes/admin.routes.js";
 import applicationRoutes from "./routes/applications.routes.js";
 import tuitionRoutes from "./routes/tuitions.routes.js";
-
+import paymentRoutes, { stripeWebhook } from "./routes/payments.routes.js";
+import publicRoutes from "./routes/public.routes.js";
+import userRoutes from "./routes/users.routes.js";
 const app = express();
 
 app.use(
@@ -20,7 +22,8 @@ app.use(
 
 // BetterAuth must be mounted BEFORE express.json()
 app.all("/api/auth/*splat", toNodeHandler(auth));
-
+// Stripe needs the raw body to check the signature
+app.post("/api/payments/webhook", express.raw({ type: "application/json" }), stripeWebhook);
 app.use(express.json());
 
 app.get("/", (_req, res) => {
@@ -30,7 +33,9 @@ app.get("/", (_req, res) => {
 app.use("/api/tuitions", tuitionRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/payments", paymentRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/public", publicRoutes);
 // Unknown routes
 app.use((_req, res) => {
   res.status(404).json({ message: "Route not found" });
