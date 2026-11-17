@@ -19,5 +19,10 @@ export const collections = {
 export async function connectDB() {
   await client.connect();
   await db.command({ ping: 1 });
+
+  // Indexes stop duplicate payments and duplicate applications
+  await collections.payments.createIndex({ stripeSessionId: 1 }, { unique: true });
+  await collections.applications.createIndex({ tuitionId: 1, studentEmail: 1 }, { unique: true });
+
   console.log("MongoDB connected");
 }
