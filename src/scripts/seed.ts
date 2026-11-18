@@ -1,5 +1,5 @@
 import { auth } from "../config/auth.js";
-import { client, collections, connectDB } from "../config/db.js";
+import { client, collections, connectDB, db } from "../config/db.js";
 
 const ADMIN_PASSWORD = "Admin@1234";
 const USER_PASSWORD = "Demo@1234";
@@ -79,12 +79,19 @@ const sampleApplications = [
 
 // Sign up through BetterAuth (so the password is hashed), then set role and plan
 async function createUser(person: Person, role: string, password: string, plan = "free") {
-  const exists = await collections.users.findOne({ email: person.email });
-  if (!exists) {
-    await auth.api.signUpEmail({
-      body: { name: person.name, email: person.email, password },
-    });
+  // Remove the old copy first, so the password is always correct after seeding
+  const old = await collections.users.findOne({ email: person.email });
+  if (old) {
+    const ids = [old._id, String(old._id)];
+    await db.collection("account").deleteMany({ userId: { $in: ids } });
+    await db.collection("session").deleteMany({ userId: { $in: ids } });
+    await collections.users.deleteOne({ _id: old._id });
   }
+
+  await auth.api.signUpEmail({
+    body: { name: person.name, email: person.email, password },
+  });
+
   await collections.users.updateOne(
     { email: person.email },
     { $set: { role, plan, phone: person.phone, bio: person.bio } }
