@@ -34,6 +34,7 @@ router.patch("/tuitions/:id/status", async (req, res) => {
   }
   res.json({ message: `Tuition ${status}` });
 });
+
 // All registered users
 router.get("/users", async (_req, res) => {
   const data = await collections.users.find().sort({ createdAt: -1 }).toArray();
@@ -88,4 +89,5 @@ router.get("/transactions", async (_req, res) => {
   const data = await collections.payments.find().sort({ paidAt: -1 }).toArray();
   res.json(data);
 });
+
 export default router;
