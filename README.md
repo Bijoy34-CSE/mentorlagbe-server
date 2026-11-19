@@ -2,9 +2,9 @@
 
 REST API for MentorLagbe, a tuition and mentorship platform. Built with Express, MongoDB, BetterAuth, JWT and Stripe.
 
-- **Live API:** https://YOUR-SERVER-URL.vercel.app
+- **Live API:** https://mentorlagbe-api-bijoy.vercel.app/
 - **Client repository:** https://github.com/Bijoy34-CSE/mentorlagbe-client
-- **Live site:** https://YOUR-CLIENT-URL.vercel.app
+- **Live site:** https://mentorlagbe-bijoy.vercel.app/
 
 ## Admin Credentials
 
