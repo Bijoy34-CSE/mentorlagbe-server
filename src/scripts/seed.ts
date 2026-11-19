@@ -1,6 +1,7 @@
 import { auth } from "../config/auth.js";
 import { client, collections, connectDB, db } from "../config/db.js";
-
+// Banners are served by the client site, one image for each subject
+const BANNER_BASE = process.env.BANNER_BASE_URL ?? "https://mentorlagbe-bijoy.vercel.app";
 const ADMIN_PASSWORD = "Admin@1234";
 const USER_PASSWORD = "Demo@1234";
 
@@ -118,8 +119,8 @@ async function seed() {
     location: item.location,
     monthlyFee: item.monthlyFee,
     daysPerWeek: item.daysPerWeek,
-    // Placeholder photos. Tutors will upload real banners with ImgBB.
-    bannerImage: `https://picsum.photos/seed/mentorlagbe-${index + 1}/800/450`,
+        // Real tutors upload their own banner with ImgBB
+    bannerImage: `${BANNER_BASE}/banners/${item.subject.toLowerCase()}.svg`,
     description: item.description,
     tutorName: tutors[item.tutor].name,
     tutorEmail: tutors[item.tutor].email,
