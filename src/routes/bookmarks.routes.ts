@@ -52,8 +52,11 @@ router.post("/:tuitionId", async (req, res) => {
 router.delete("/:tuitionId", async (req, res) => {
   const tuitionId = param(req, "tuitionId");
   if (!isValidId(tuitionId)) return badId(res);
-
-  await collections.users.updateOne({ email: req.user!.email }, { $pull: { bookmarks: tuitionId } });
+  // $pull removes this id from the saved list.
+  // The users collection has no fixed type, so we tell TypeScript this update is fine.
+  await collections.users.updateOne({ email: req.user!.email }, {
+    $pull: { bookmarks: tuitionId },
+  } as never);
   res.json({ message: "Tuition removed from saved list" });
 });
 
