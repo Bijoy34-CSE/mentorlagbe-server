@@ -11,7 +11,7 @@ import paymentRoutes, { stripeWebhook } from "./routes/payments.routes.js";
 import publicRoutes from "./routes/public.routes.js";
 import tuitionRoutes from "./routes/tuitions.routes.js";
 import userRoutes from "./routes/users.routes.js";
-
+import bookmarkRoutes from "./routes/bookmarks.routes.js";
 const app = express();
 
 app.use(
@@ -47,10 +47,10 @@ app.get("/", (_req, res) => {
 app.use("/api/tuitions", tuitionRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/public", publicRoutes);
-
 // Unknown routes
 app.use((_req, res) => {
   res.status(404).json({ message: "Route not found" });
