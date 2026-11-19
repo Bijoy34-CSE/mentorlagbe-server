@@ -26,7 +26,8 @@ REST API for MentorLagbe, a tuition and mentorship platform. Built with Express,
 - Stripe Checkout, payment verification and webhook with safe duplicate handling
 - Admin APIs for stats, users, tuition approval and transactions
 - Seed script that creates demo users, tuitions and applications
-
+- Stripe webhook (`checkout.session.completed`) as a backup to checkout verification
+- Student bookmarks stored inside the user document (no extra collection)
 ## NPM Packages
 
 `express`, `cors`, `dotenv`, `mongodb`, `better-auth`, `stripe`, `jose`, `typescript`, `tsx`
@@ -64,3 +65,4 @@ IMGBB_API_KEY=your_imgbb_key
 | Payments | `/api/payments/checkout`, `/verify`, `/webhook` |
 | Admin | `/api/admin/stats`, `/users`, `/tuitions`, `/transactions` |
 | Public | `/api/public/stats` |
+| Bookmarks | `/api/bookmarks`, `/ids`, `/:tuitionId` |
